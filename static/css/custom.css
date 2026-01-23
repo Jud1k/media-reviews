@@ -1,0 +1,111 @@
+@font-face {
+    font-family: 'RodchenkoConde';
+    src: url('fonts/RodchenkoCondensed.ttf') format('ttf');
+    font-display: swap;
+}
+
+/* body {
+    font-family: 'RodchenkoConde';
+} */
+
+/* Плавные переходы для темной темы */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Кастомные стили для градиента */
+.bg-gradient-brand {
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+}
+
+.text-gradient-brand {
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Анимация кнопки добавления */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(124, 58, 237, 0); }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s infinite;
+}
+
+/* Анимация появления меню */
+.menu-enter {
+    animation: menuEnter 0.2s ease-out;
+}
+
+@keyframes menuEnter {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-enter {
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+        
+/* HTMX индикатор */
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 200ms ease-in;
+}
+
+.htmx-request .htmx-indicator {
+    opacity: 1;
+}
+
+footer {
+    transition: all 0.3s ease;
+}
+
+footer:hover {
+    border-color: rgba(124, 58, 237, 0.3);
+}
+
+/* Анимация для выпадающего меню */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Классы для показа/скрытия с анимацией */
+.profile-menu-enter {
+    animation: slideDown 0.2s ease-out forwards;
+}
+
+.profile-menu-exit {
+    animation: slideDown 0.15s ease-in reverse forwards;
+}
+
+/* Или проще - CSS transition */
+#profile-menu {
+    transition: all 0.2s ease-out;
+    transform-origin: top right;
+}
+
+#profile-menu.hidden {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+    pointer-events: none;
+}
+
+#profile-menu:not(.hidden) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}

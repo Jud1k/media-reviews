@@ -1,0 +1,33 @@
+<div class="max-w-md mx-auto mt-10 mb-10 p-8 border border-gray-300 rounded-xl shadow-sm bg-white">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Create Account</h2>
+    
+    <form method="post" class="space-y-4" 
+        hx-post="{% url "registration:signup" %}"
+        hx-target="body"
+        hx-swap="outerHTML">
+        {% csrf_token %}
+        {{ form }}
+        
+        <button type="submit" 
+                class="w-full mt-6 py-3 px-4 bg-emerald-600 text-white font-medium rounded-lg 
+                       hover:bg-emerald-700 active:bg-emerald-800 
+                       transition-colors duration-200 
+                       focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+                       shadow-sm hover:shadow">
+            Sign Up
+        </button>
+    </form>
+    
+    <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+        <p class="text-gray-600">
+            Already have an account? 
+            <a href="{% url 'login' %}" 
+               hx-get="{% url 'login' %}"
+               hx-target="#main"
+               hx-swap="innerHTML"
+               class="text-emerald-600 font-medium hover:text-emerald-700 hover:underline transition-colors"> 
+                Sign in
+            </a>
+        </p>
+    </div>
+</div>
