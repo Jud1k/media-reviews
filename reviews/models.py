@@ -6,13 +6,13 @@ from django.urls import reverse
 
 
 class MediaType(models.TextChoices):
-    BOOK = "book", "Книга"
-    MOVIE = "movie", "Фильм"
-    ANIME = "anime", "Аниме"
-    SERIES = "series", "Сериал"
-    GAME = "game", "Игра"
-    MUSIC = "music", "Альбом"
-    OTHER = "other", "Другое"
+    BOOK = "Book"
+    MOVIE = "Movie"
+    ANIME = "Anime"
+    SERIES = "Series"
+    GAME = "Game"
+    MUSIC = "Music"
+    OTHER = "Other"
 
 
 class Review(models.Model):

@@ -19,14 +19,13 @@ from django.contrib import admin
 from django.urls import include, path
 
 from core import settings
-import reviews
 import reviews.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path("register/", include("registration.urls")),
     path("", reviews.views.index, name="home"),
+    path("auth/", include("registration.urls")),
+    path("auth/",include("django.contrib.auth.urls")),
     path("reviews/", include("reviews.urls")),
 ]
 

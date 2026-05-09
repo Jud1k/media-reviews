@@ -13,3 +13,4 @@ logs
 *.log
 *.txt
 .django_tailwind_cli
+tailwind.css

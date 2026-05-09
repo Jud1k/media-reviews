@@ -1,0 +1,38 @@
+{% load static %}
+
+<div id="modal" _="on closeModal 
+                   add .closing 
+                   then wait for animationend 
+                   then remove me
+                   then call history.back()">
+    <div class="modal-underlay" _="on click trigger closeModal"></div>
+    <div class="modal-content" _="on click halt">
+        <div class="border-b p-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Add New Review</h2>
+            </div>
+        </div>
+        <form hx-post="{% url 'reviews:review-create' %}"
+              hx-target="#modal-container"
+              hx-swap="innerHTML"
+              class="p-6">
+            {% csrf_token %}
+            {{ form }}
+            <div class="modal-footer justify-between">
+                <button type="button"
+                        _="on click trigger closeModal"
+                        class="px-1 py-2 cursor-pointer w-40 justify-center border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200">
+                    Cancel
+                </button>
+                <button type="submit"
+                hx-post="{% url 'reviews:review-create' %}"
+                hx-target="#main"
+                hx-swap="innerHTML"
+                        class="px-4 py-2 cursor-pointer w-40 justify-center bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 transition-colors flex items-center">
+                    Add Review
+                </button>
+                <img class="htmx-indicator h-5 w-5" src="{% static 'images/rings.svg' %}" alt="Loading..."/>
+            </div>
+        </form>
+    </div>
+</div>

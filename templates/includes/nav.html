@@ -1,156 +1,72 @@
 {% load static %}
 
 {% block nav %}
-<nav class="bg-white shadow-sm border-b border-gray-200">
+<nav class="border-b border-zinc-800 shadow-sm">
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-            
-            <div class="flex items-center space-x-3">
-                <a
-                href="{% url 'reviews:reviews' %}"
-                 class="flex items-center space-x-3 group">
-                    <div class="w-16 h-16 flex items-center justify-center">
-                        <img src="{% static 'images/logo.svg' %}" 
-                             alt="Reviews Logo" 
-                             class="w-full h-full">
-                    </div>
-                    <span class="text-2xl font-bold text-emerald-600">
-                        REVIEWS
-                    </span>
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <a href="{% url 'home' %}" class="flex items-center space-x-2 group">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <use href="#icon-logo"></use>
+                    </svg>
+                    <span class="text-xl font-black tracking-tight text-emerald-600">REVIEWS</span>
                 </a>
             </div>
-            
-            <div class="flex items-center space-x-4">
-                <button 
-                    hx-get="{% url 'reviews:review-create' %}"
-                    hx-target="#modal-container"
-                    hx-swap="innerHTML"
-                    class="flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-sm hover:shadow"
-                    aria-label="Add new review"
-                >
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                    Add Review
-                </button>
-                
+            <div class="flex items-center space-x-3">
                 {% if user.is_authenticated %}
-                <div class="relative" id="profile-menu-container">
-                    <button id="profile-menu-toggle"
-                            class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                            @click.away="open = false">
+                <button hx-get="{% url 'reviews:review-create' %}" 
+                        hx-target="#modal-container"
+                        hx-swap="innerHTML"
+                        hx-push-url="true"
+                        class="flex cursor-pointer items-center px-3 bg-emerald-600 text-white text-lg rounded-xl hover:bg-emerald-700 transition-all active:scale-95 shadow-sm">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                    <span class="border-l-2 border-gray-600 py-2 pl-2">Add Review</span>
+                </button>
+                <details class="relative group">
+                    <summary class="flex cursor-pointer list-none items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition-colors">
                         <div class="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center text-white font-medium">
                             {{ user.username|first|upper }}
                         </div>
-                        <span class="text-gray-700 text-sm font-medium">
-                            {{ user.username }}
-                        </span>
-                       <svg id="profile-menu-arrow"
-                             class="w-4 h-4 text-gray-500 transition-transform" 
-                             fill="none" 
-                             stroke="currentColor" 
-                             viewBox="0 0 24 24">
+                        <span class="text-white text-lg font-medium">{{ user.username }}</span>
+                        <svg class="w-4 h-4 text-gray-400 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </button>
-                    
-                     <div id="profile-menu" 
-                        class="absolute right-0 mt-3 w-48 bg-white rounded-lg shadow-lg py-1 border border-gray-200 z-50 
-                                transform opacity-0 scale-95 -translate-y-2 
-                                transition-all duration-200 ease-out 
-                                hidden">
-                        
-                        <div class="px-4 py-2 border-b border-gray-100">
-                            <p class="text-sm font-medium text-gray-900">{{ user.username }}</p>
+                    </summary>
+
+                    <div class="absolute right-0 mt-2 w-48 bg-gray-900 rounded-xl shadow-lg border border-zinc-800 z-50 overflow-hidden">
+                        <div class="px-4 py-3 border-b border-zinc-800">
+                            <p class="text-xs text-gray-500 font-medium">Signed in as</p>
+                            <p class="text-sm font-medium text-white">{{ user.username }}</p>
                         </div>
-                        
-                        <form action="{% url 'logout' %}" method="post" class="inline" hx-boost="false">
-                            {% csrf_token %}
-                            <button type="submit" class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                </svg>
-                                Logout
-                            </button>
-                        </form>
+                        <button type="submit" 
+                                class="flex cursor-pointer items-center w-full px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-medium"
+                                hx-post="{% url 'logout' %}">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span>Sign out</span>
+                            <img class="htmx-indicator h-5 w-5" src="{% static 'images/rings.svg' %}" alt="Loading..."/>
+                        </button>
                     </div>
-                </div>
+                </details>
                 {% else %}
-                <a href="{% url 'login' %}"
-                    hx-get="{% url 'login' %}" 
-                    hx-target='#main'
-                    hx-swap="innerHTML"
-                    class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-emerald-600 transition-colors">
-                    Sign in
-                </a>
-                <a
-                    href = "{% url 'registration:signup' %}" 
+                <div class="flex items-center space-x-1">
+                    <a href="{% url 'registration:login' %}" 
+                    hx-get="{% url 'registration:login' %}" 
+                    hx-target='body'
+                    hx-swap="outerHTML"
+                    hx-push-url="{% url "registration:login" %}"
+                       class="px-4 py-2 text-lg font-semibold text-gray-600 hover:text-emerald-600 transition-colors">Sign in</a>
+                    <a href="{% url 'registration:signup' %}" 
                     hx-get="{% url 'registration:signup' %}" 
-                    hx-target='#main'
-                    hx-swap="innerHTML"
-                   class="px-4 py-2 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700 transition-colors shadow-sm">
-                    Sign up
-            </a>
+                    hx-target='body'
+                    hx-swap="outerHTML"
+                    hx-push-url="{% url "registration:signup" %}"
+                       class="px-4 py-2 bg-emerald-600 text-white text-lg font-medium rounded-lg hover:bg-emerald-700 transition-colors shadow-sm">Sign up</a>
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
 </nav>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const profileMenuToggle = document.getElementById('profile-menu-toggle');
-    const profileMenu = document.getElementById('profile-menu');
-    const profileMenuArrow = document.getElementById('profile-menu-arrow');
-    
-    if (profileMenuToggle && profileMenu) {
-        function showMenu() {
-            profileMenu.style.opacity = '0';
-            profileMenu.style.transform = 'scale(0.95) translateY(-10px)';
-            profileMenu.classList.remove('hidden');
-            profileMenu.offsetHeight;
-            profileMenu.style.opacity = '1';
-            profileMenu.style.transform = 'scale(1) translateY(0)';
-        }
-
-        function hideMenu() {
-            profileMenu.style.opacity = '0';
-            profileMenu.style.transform = 'scale(0.95) translateY(-10px)';
-            setTimeout(() => profileMenu.classList.add('hidden'), 200);
-        }
-        
-        profileMenuToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isVisible = !profileMenu.classList.contains('hidden');
-            
-            if (isVisible) {
-                hideMenu();
-                profileMenuArrow.style.transform = 'rotate(0deg)';
-            } else {
-                showMenu();
-                profileMenuArrow.style.transform = 'rotate(180deg)';
-            }
-        });
-        
-        document.addEventListener('click', function(e) {
-            if (profileMenu && !profileMenu.classList.contains('hidden')) {
-                const isClickInside = profileMenu.contains(e.target) || 
-                                      profileMenuToggle.contains(e.target);
-                
-                if (!isClickInside) {
-                    hideMenu();
-                    profileMenuArrow.style.transform = 'rotate(0deg)';
-                }
-            }
-        });
-
-        const menuLinks = profileMenu.querySelectorAll('a');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                hideMenu();
-                profileMenuArrow.style.transform = 'rotate(0deg)';
-            });
-        });
-    }
-});
-</script>
 {% endblock %}

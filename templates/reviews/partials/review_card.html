@@ -1,0 +1,59 @@
+<div class="relative bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-gray-700 transition-all group w-full"
+     id="review-{{ review.pk }}">
+    
+    <div class="absolute top-4 right-4 p-2 rounded-full bg-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20">
+        <svg class="w-4 h-4 text-gray-400 hover:text-red-400" fill="none" stroke="currentColor">
+            <use href="#icon-trash"></use>
+        </svg>
+    </div>
+
+    <div class="flex items-center gap-3 mb-4">
+        <div class="p-2 bg-gray-800 rounded-lg">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor">
+                {% if review.media_type == "book" %}
+                    <use href="#icon-book"></use>
+                {% elif review.media_type == "movie" %}
+                    <use href="#icon-movie"></use>
+                {% elif review.media_type == "game" %}
+                    <use href="#icon-game"></use>
+                {% else %}
+                    <use href="#icon-default"></use>
+                {% endif %}
+            </svg>
+        </div>
+        <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">
+            {{ review.get_media_type_display }}
+        </span>
+    </div>
+
+    <h3 class="text-xl font-bold mb-3 text-gray-100 line-clamp-2">
+        {{ review.title }}
+    </h3>
+
+    <div class="flex items-center gap-2 mb-3 text-sm text-gray-500">
+        <span class="truncate">{{ review.author|default:"Unknown" }}</span>
+        {% if review.year %}
+        <span>•</span>
+        <span>{{ review.year }}</span>
+        {% endif %}
+    </div>
+
+    <div class="flex items-center gap-2 mb-4">
+        <span class="text-sm text-gray-500 font-medium">Rating:</span>
+        <span class="{{review.get_rating_color}} text-xl font-bold ml-1">{{ review.rating }}</span>
+        <span class="text-sm text-gray-500">/10</span>
+    </div>
+
+    <p class="text-gray-400 leading-relaxed mb-4 line-clamp-4 wrap-break-word">
+        {{ review.content|truncatewords:60 }}
+    </p>
+
+    <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+        <span class="text-sm text-gray-500 truncate">
+            by <span class="text-gray-300 font-medium">{{ review.user.username }}</span>
+        </span>
+        <span class="text-xs text-gray-600 shrink-0 ml-2">
+            {{ review.created_at|date:"M d, Y" }}
+        </span>
+    </div>
+</div>

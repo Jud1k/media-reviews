@@ -1,0 +1,47 @@
+{% load static %}
+
+<div class="max-w-md mx-auto mt-10 mb-10 p-8 border border-gray-500 bg-gray-600 rounded-xl shadow-sm">
+    <h2 class="text-2xl font-bold mb-6 text-center text-white">Create Account</h2>
+    <form method="post" class="space-y-4" 
+        hx-post="{% url "registration:signup" %}"
+        hx-target="closest div"
+        hx-swap="outerHTML">
+        {% csrf_token %}
+        {% for field in form %} 
+            <span class="text-white">
+                {{ field.label_tag }}
+            </span>
+            {{ field }}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <p class="text-red-500 mt-1">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        <div class="relative">
+            <button type="submit"
+                    class="w-full mt-2 py-3 px-4 cursor-pointer flex items-center justify-center bg-emerald-600 text-white font-medium rounded-lg 
+                        hover:bg-emerald-700 active:bg-emerald-800 
+                        transition-colors duration-200
+                        focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+                        shadow-sm hover:shadow">
+                <span>Sign Up</span>
+                <img class="htmx-indicator h-5 w-5" src="{% static 'images/rings.svg' %}" alt="Loading..."/>
+        </div>
+        </button>
+    </form>
+    
+    <div class="mt-6 pt-6 border-t border-gray-400 text-center">
+        <p class="text-white">
+            Already have an account? 
+            <a href="{% url 'registration:login' %}" 
+               hx-get="{% url 'registration:login' %}"
+               hx-target="body"
+               hx-swap="outerHTML"
+               hx-push-url="{% url 'registration:login' %}"
+               class="text-emerald-600 font-medium hover:text-emerald-700 hover:underline transition-colors"> 
+                Sign in
+            </a>
+        </p>
+    </div>
+</div>
