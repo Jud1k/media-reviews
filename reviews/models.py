@@ -1,4 +1,3 @@
-import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -20,7 +19,7 @@ class Review(models.Model):
     media_type = models.CharField(
         max_length=20, choices=MediaType.choices, verbose_name="Name media"
     )
-    title = models.CharField(max_length=200, verbose_name="Name of work",unique=True)
+    title = models.CharField(max_length=200, verbose_name="Name of work", unique=True)
     rating = models.DecimalField(
         max_digits=3,
         decimal_places=1,

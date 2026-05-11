@@ -69,7 +69,9 @@ def create_review(request: HtmxHttpRequest) -> HttpResponse:
             return redirect("home")
         else:
             if request.htmx:
-                response = render(request, "reviews/partials/review_form.html", {"form": form})
+                response = render(
+                    request, "reviews/partials/review_form.html", {"form": form}
+                )
                 response["HX-Retarget"] = "#review-form"
                 response["HX-Reswap"] = "outerHTML"
                 return response
@@ -77,9 +79,13 @@ def create_review(request: HtmxHttpRequest) -> HttpResponse:
     else:
         form = ReviewCreateForm()
         if request.htmx:
-            return render(request, "reviews/partials/review_create.html", {"form": form})
+            return render(
+                request, "reviews/partials/review_create.html", {"form": form}
+            )
         reviews = Review.objects.all()
-    return render(request, "reviews/review_create_page.html", {"reviews": reviews, "form": form})
+    return render(
+        request, "reviews/review_create_page.html", {"reviews": reviews, "form": form}
+    )
 
 
 ITEMS_PER_PAGE = 9
@@ -184,7 +190,9 @@ def edit_review(request: HtmxHttpRequest, pk: int) -> HttpResponse:
             messages.success(request, "Review updated successfully!")
             return response
         else:
-            response = render(request, "reviews/partials/review_form.html", {"form": form})
+            response = render(
+                request, "reviews/partials/review_form.html", {"form": form}
+            )
             response["HX-Retarget"] = "#review-form"
             response["HX-Reswap"] = "outerHTML"
             return response

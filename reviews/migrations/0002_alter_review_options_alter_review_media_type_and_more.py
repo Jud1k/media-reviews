@@ -4,24 +4,41 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('reviews', '0001_initial'),
+        ("reviews", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='review',
-            options={'ordering': ['-created_at'], 'verbose_name': 'Review', 'verbose_name_plural': 'Reviews'},
+            name="review",
+            options={
+                "ordering": ["-created_at"],
+                "verbose_name": "Review",
+                "verbose_name_plural": "Reviews",
+            },
         ),
         migrations.AlterField(
-            model_name='review',
-            name='media_type',
-            field=models.CharField(choices=[('Book', 'Book'), ('Movie', 'Movie'), ('Anime', 'Anime'), ('Series', 'Series'), ('Game', 'Game'), ('Music', 'Music'), ('Other', 'Other')], max_length=20, verbose_name='Name media'),
+            model_name="review",
+            name="media_type",
+            field=models.CharField(
+                choices=[
+                    ("Book", "Book"),
+                    ("Movie", "Movie"),
+                    ("Anime", "Anime"),
+                    ("Series", "Series"),
+                    ("Game", "Game"),
+                    ("Music", "Music"),
+                    ("Other", "Other"),
+                ],
+                max_length=20,
+                verbose_name="Name media",
+            ),
         ),
         migrations.AlterField(
-            model_name='review',
-            name='title',
-            field=models.CharField(max_length=200, unique=True, verbose_name='Name of work'),
+            model_name="review",
+            name="title",
+            field=models.CharField(
+                max_length=200, unique=True, verbose_name="Name of work"
+            ),
         ),
     ]

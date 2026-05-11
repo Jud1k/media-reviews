@@ -7,7 +7,7 @@ class SignupForm(UserCreationForm):
         self.fields["username"].help_text = ""
         self.fields["password1"].help_text = ""
         self.fields["password2"].help_text = ""
-        
+
         self.fields["username"].widget.attrs.update(
             {
                 "class": "w-full text-white px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent",

@@ -25,7 +25,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", reviews.views.index, name="home"),
     path("auth/", include("registration.urls")),
-    path("auth/",include("django.contrib.auth.urls")),
+    path("auth/", include("django.contrib.auth.urls")),
     path("reviews/", include("reviews.urls")),
 ]
 

@@ -70,7 +70,9 @@ class ExportReviewsCsvTest(TestCase):
 
     def test_export_sets_content_disposition(self):
         response = export_reviews_csv(Review.objects.none())
-        self.assertEqual(response["Content-Disposition"], "attachment; filename=reviews.csv")
+        self.assertEqual(
+            response["Content-Disposition"], "attachment; filename=reviews.csv"
+        )
 
 
 class ImportReviewsCsvTest(TestCase):
@@ -84,8 +86,7 @@ class ImportReviewsCsvTest(TestCase):
 
     def test_import_creates_review(self):
         csv_content = (
-            f"{','.join(CSV_HEADERS)}\n"
-            "Movie,New Film,7.5,Nice movie,Director,2024"
+            f"{','.join(CSV_HEADERS)}\nMovie,New Film,7.5,Nice movie,Director,2024"
         )
         file = self._csv_file(csv_content)
         count, errors = create_reviews_from_csv(file, self.user)
@@ -104,20 +105,14 @@ class ImportReviewsCsvTest(TestCase):
         self.assertEqual(errors, [])
 
     def test_import_skips_header_row(self):
-        csv_content = (
-            f"{','.join(CSV_HEADERS)}\n"
-            "Movie,Real Film,7.0,Good,Writer,2023"
-        )
+        csv_content = f"{','.join(CSV_HEADERS)}\nMovie,Real Film,7.0,Good,Writer,2023"
         file = self._csv_file(csv_content)
         count, errors = create_reviews_from_csv(file, self.user)
         self.assertEqual(count, 1)
         self.assertFalse(Review.objects.filter(title="media_type").exists())
 
     def test_import_invalid_year_logs_error(self):
-        csv_content = (
-            f"{','.join(CSV_HEADERS)}\n"
-            "Movie,Bad Year,7.5,Nice,Director,123"
-        )
+        csv_content = f"{','.join(CSV_HEADERS)}\nMovie,Bad Year,7.5,Nice,Director,123"
         file = self._csv_file(csv_content)
         count, errors = create_reviews_from_csv(file, self.user)
         self.assertEqual(count, 0)
@@ -126,8 +121,7 @@ class ImportReviewsCsvTest(TestCase):
 
     def test_import_invalid_rating_logs_error(self):
         csv_content = (
-            f"{','.join(CSV_HEADERS)}\n"
-            "Movie,Bad Rating,15.0,Nice,Director,2024"
+            f"{','.join(CSV_HEADERS)}\nMovie,Bad Rating,15.0,Nice,Director,2024"
         )
         file = self._csv_file(csv_content)
         count, errors = create_reviews_from_csv(file, self.user)
@@ -146,8 +140,7 @@ class ImportReviewsCsvTest(TestCase):
             year=2020,
         )
         csv_content = (
-            f"{','.join(CSV_HEADERS)}\n"
-            "Movie,Duplicate,7.0,Another,Writer,2021"
+            f"{','.join(CSV_HEADERS)}\nMovie,Duplicate,7.0,Another,Writer,2021"
         )
         file = self._csv_file(csv_content)
         count, errors = create_reviews_from_csv(file, self.user)
@@ -156,8 +149,7 @@ class ImportReviewsCsvTest(TestCase):
 
     def test_import_missing_field_logs_error(self):
         csv_content = (
-            f"{','.join(CSV_HEADERS)}\n"
-            "Movie,Missing Field,,Nice,Director,2024"
+            f"{','.join(CSV_HEADERS)}\nMovie,Missing Field,,Nice,Director,2024"
         )
         file = self._csv_file(csv_content)
         count, errors = create_reviews_from_csv(file, self.user)

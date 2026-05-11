@@ -112,14 +112,16 @@ def get_reviews_xlsx(reviews: list[Review]) -> bytes:
     sheet = wb.active
     sheet.append(REVIEWS_HEADERS)
     for review in reviews:
-        sheet.append([
-            review.media_type,
-            review.title,
-            review.rating,
-            review.content,
-            review.author,
-            review.year,
-        ])
+        sheet.append(
+            [
+                review.media_type,
+                review.title,
+                review.rating,
+                review.content,
+                review.author,
+                review.year,
+            ]
+        )
     buffer = io.BytesIO()
     wb.save(buffer)
     buffer.seek(0)

@@ -49,8 +49,9 @@ def login_user(request: HtmxHttpRequest) -> HttpResponse:
         form = LoginForm()
         return render(request, "registration/login.html", {"form": form})
 
+
 @require_POST
-def logout_user(request:HtmxHttpRequest) -> HttpResponse:
+def logout_user(request: HtmxHttpRequest) -> HttpResponse:
     logout(request)
     response = HttpResponse()
     response["HX-Redirect"] = reverse("home")
