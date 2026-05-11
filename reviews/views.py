@@ -191,7 +191,9 @@ def edit_review(request: HtmxHttpRequest, pk: int) -> HttpResponse:
             return response
         else:
             response = render(
-                request, "reviews/partials/review_form.html", {"form": form}
+                request,
+                "reviews/partials/review_form.html",
+                {"form": form, "action_url": f"/reviews/edit/{pk}", "submit_text": "Save Changes"},
             )
             response["HX-Retarget"] = "#review-form"
             response["HX-Reswap"] = "outerHTML"

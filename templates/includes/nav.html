@@ -4,14 +4,9 @@
 <nav class="border-b border-zinc-800 shadow-sm">
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex items-center">
                 <a href="{% url 'home' %}" class="flex items-center space-x-2 group">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <use href="#icon-logo"></use>
-                    </svg>
                     <span class="text-xl font-black tracking-tight text-emerald-600">REVIEWS</span>
                 </a>
-            </div>
             <div class="flex items-center space-x-3">
                 {% if user.is_authenticated %}
                 {% include "includes/export_button.html" %}
