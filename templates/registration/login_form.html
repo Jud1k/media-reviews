@@ -19,7 +19,6 @@
         hx-target="closest div"
         hx-swap="outerHTML"
         class="mt-8 space-y-6">
-            {% csrf_token %}
             {% if form.non_field_errors %}
                 <div class="p-3 mb-4 bg-red-50 border-l-4 border-red-500 text-red-700">
                     {% for error in form.non_field_errors %}

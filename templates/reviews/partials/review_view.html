@@ -1,0 +1,69 @@
+{% load static media_icons review_filters %}
+
+<div id="modal" _="on closeModal
+                   add .closing
+                   then wait for animationend
+                   then remove me
+                   then call history.back()">
+    <div class="modal-underlay" _="on click trigger closeModal"></div>
+    <div class="modal-content" id="modal-content" _="on click halt">
+        <div class="border-b border-gray-300 p-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Review</h2>
+                <button type="button" _="on click trigger closeModal" class="p-2 hover:bg-gray-200 rounded-full transition-colors">
+                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="p-2 bg-gray-200 rounded-lg">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor">
+                        <use href="#{% get_media_icon review.media_type %}"></use>
+                    </svg>
+                </div>
+                <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    {{ review.get_media_type_display }}
+                </span>
+            </div>
+
+            <h3 class="text-2xl font-bold mb-3 text-gray-900">
+                {{ review.title }}
+            </h3>
+
+            <div class="flex items-center gap-2 mb-4 text-sm text-gray-600">
+                <span>{{ review.author|default:"Unknown" }}</span>
+                {% if review.year %}
+                <span>•</span>
+                <span>{{ review.year }}</span>
+                {% endif %}
+            </div>
+
+            <div class="flex items-center gap-2 mb-6">
+                <span class="text-sm text-gray-600 font-medium">Rating:</span>
+                <span class="{{ review.rating|rating_color }} text-2xl font-bold ml-1">{{ review.rating }}</span>
+                <span class="text-sm text-gray-500">/10</span>
+            </div>
+
+            <div class="bg-white rounded-lg p-4 mb-6 overflow-hidden">
+                <p class="text-gray-700 leading-relaxed break-words">{{ review.content }}</p>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-gray-300">
+                <span class="text-sm text-gray-600">
+                    by <span class="text-gray-800 font-medium">{{ review.user.username }}</span>
+                </span>
+                <div class="text-xs text-gray-500">
+                    {% if review.updated_at and review.updated_at != review.created_at %}
+                    <span>Updated: {{ review.updated_at|date:"M d, Y" }}</span>
+                    {% else %}
+                    <span>{{ review.created_at|date:"M d, Y" }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

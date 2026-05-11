@@ -1,24 +1,42 @@
-<div class="relative bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-gray-700 transition-all group w-full"
-     id="review-{{ review.pk }}">
-    
-    <div class="absolute top-4 right-4 p-2 rounded-full bg-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20">
-        <svg class="w-4 h-4 text-gray-400 hover:text-red-400" fill="none" stroke="currentColor">
-            <use href="#icon-trash"></use>
-        </svg>
-    </div>
+{% load static media_icons review_filters %}
 
-    <div class="flex items-center gap-3 mb-4">
+<div class="review-wrapper relative bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-gray-700 transition-all group w-full"
+     id="review-{{ review.pk }}">
+
+    {% if request.user == review.user %}
+    <button type="button"
+            class="absolute cursor-pointer top-4 right-12 p-2 rounded-full bg-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-blue-500/20 z-10"
+            hx-get="{% url 'reviews:review-edit' review.pk %}"
+            hx-target="#modal-container"
+            hx-swap="innerHTML"
+            hx-push-url="true"
+            _="on click halt">
+        <svg class="w-4 h-4 text-gray-400 hover:text-blue-400" fill="none" stroke="currentColor">
+            <use href="#icon-edit"></use>
+        </svg>
+    </button>
+    <button type="button"
+    class="absolute cursor-pointer top-4 right-4 p-2 rounded-full bg-gray-800/50 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 z-10"
+    hx-delete="{% url 'reviews:review-delete' review.pk %}"
+    hx-target="closest .flex"
+    hx-swap="outerHTML"
+    hx-confirm="Удалить отзыв?"
+    _="on click halt">
+    <svg class="w-4 h-4 text-gray-400 hover:text-red-400" fill="none" stroke="currentColor">
+        <use href="#icon-trash"></use>
+    </svg>
+</button>
+{% endif %}
+
+    <div class="cursor-pointer"
+         hx-get="{% url 'reviews:review-view' review.pk %}"
+         hx-target="#modal-container"
+         hx-swap="innerHTML"
+         hx-push-url="true">
+        <div class="flex items-center gap-3 mb-4">
         <div class="p-2 bg-gray-800 rounded-lg">
             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor">
-                {% if review.media_type == "book" %}
-                    <use href="#icon-book"></use>
-                {% elif review.media_type == "movie" %}
-                    <use href="#icon-movie"></use>
-                {% elif review.media_type == "game" %}
-                    <use href="#icon-game"></use>
-                {% else %}
-                    <use href="#icon-default"></use>
-                {% endif %}
+                <use href="#{% get_media_icon review.media_type %}"></use>
             </svg>
         </div>
         <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -40,7 +58,7 @@
 
     <div class="flex items-center gap-2 mb-4">
         <span class="text-sm text-gray-500 font-medium">Rating:</span>
-        <span class="{{review.get_rating_color}} text-xl font-bold ml-1">{{ review.rating }}</span>
+        <span class="{{ review.rating|rating_color }} text-xl font-bold ml-1">{{ review.rating }}</span>
         <span class="text-sm text-gray-500">/10</span>
     </div>
 
@@ -55,5 +73,6 @@
         <span class="text-xs text-gray-600 shrink-0 ml-2">
             {{ review.created_at|date:"M d, Y" }}
         </span>
+    </div>
     </div>
 </div>

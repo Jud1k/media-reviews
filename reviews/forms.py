@@ -1,12 +1,24 @@
 from django import forms
 from reviews.models import Review
-
+import datetime
 
 class ReviewCreateForm(forms.ModelForm):
     """A form for creating review model"""
 
+    MIN_CONTENT_LENGTH = 10
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        content = cleaned_data.get("content")
+        if content and len(content) < self.MIN_CONTENT_LENGTH:
+            self.add_error(
+                "content",
+                f"Review must be at least {self.MIN_CONTENT_LENGTH} characters"
+            )
+        return cleaned_data
 
     class Meta:
         model = Review
@@ -14,6 +26,7 @@ class ReviewCreateForm(forms.ModelForm):
         widgets = {
             "title": forms.TextInput(
                 attrs={
+                    "name":"title",
                     "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all",
                     "placeholder": "The Lord of the Rings, Inception...",
                 }
@@ -32,9 +45,9 @@ class ReviewCreateForm(forms.ModelForm):
             "year": forms.NumberInput(
                 attrs={
                     "class": "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all",
-                    "placeholder": "2026",
+                    "placeholder": datetime.date.today().year,
                     "min": "1900",
-                    "max": "2026",
+                    "max": datetime.date.today().year,
                     "step": "1",
                 }
             ),

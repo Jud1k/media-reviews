@@ -67,7 +67,7 @@ body {
 #modal > .modal-content {
     position: relative;
     z-index: 1;
-    width: min(900px, 95vw);
+    width: min(700px, 95vw);
     max-height: 92vh;
     display: flex;
     flex-direction: column;
@@ -132,7 +132,7 @@ body {
 }
 
 .htmx-request .htmx-indicator, 
-.htmx-request.htmx-indicator {
+.htmx-request.htmx-indicator {  
     display: inline-block;
 }
 
@@ -177,5 +177,72 @@ footer:hover {
 #profile-menu:not(.hidden) {
     opacity: 1;
     transform: scale(1) translateY(0);
+}
+
+@keyframes reviewEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.review-enter {
+    animation: reviewEnter 220ms ease-out;
+}
+
+@keyframes reviewLeave {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.review-leave {
+    animation: reviewLeave 180ms ease-in forwards;
+}
+
+.message {
+    animation: slideIn 220ms ease-out;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.message:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.message-dismissing {
+    animation: slideOut 200ms ease-in forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }
 

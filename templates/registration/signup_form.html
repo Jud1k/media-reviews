@@ -6,7 +6,6 @@
         hx-post="{% url "registration:signup" %}"
         hx-target="closest div"
         hx-swap="outerHTML">
-        {% csrf_token %}
         {% for field in form %} 
             <span class="text-white">
                 {{ field.label_tag }}

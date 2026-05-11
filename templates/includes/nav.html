@@ -14,6 +14,8 @@
             </div>
             <div class="flex items-center space-x-3">
                 {% if user.is_authenticated %}
+                {% include "includes/export_button.html" %}
+                {% include "includes/import_button.html" %}
                 <button hx-get="{% url 'reviews:review-create' %}" 
                         hx-target="#modal-container"
                         hx-swap="innerHTML"

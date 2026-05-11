@@ -20,7 +20,7 @@ class Review(models.Model):
     media_type = models.CharField(
         max_length=20, choices=MediaType.choices, verbose_name="Name media"
     )
-    title = models.CharField(max_length=200, verbose_name="Name of work")
+    title = models.CharField(max_length=200, verbose_name="Name of work",unique=True)
     rating = models.DecimalField(
         max_digits=3,
         decimal_places=1,
@@ -33,7 +33,7 @@ class Review(models.Model):
         verbose_name="Year of release",
         validators=[
             MinValueValidator(868),
-            MaxValueValidator(datetime.date.today().year),
+            MaxValueValidator(2030),
         ],
     )
 

@@ -1,0 +1,16 @@
+{% load static %}
+
+<form id="csv-upload-form" action="{% url 'reviews:review-import' %}" method="post" enctype="multipart/form-data" class="contents">
+    {% csrf_token %}
+    <input type="file"
+           id="csv-import-input"
+           name="file"
+           accept=".csv,.xlsx,.json"
+           class="hidden"
+           onchange="document.getElementById('csv-upload-form').submit()">
+</form>
+
+<label for="csv-import-input" class="flex cursor-pointer items-center px-3 bg-gray-700 text-white text-lg rounded-xl hover:bg-gray-600 transition-all">
+    <svg class="w-4 h-4 mr-2"><use href="#icon-import"></use></svg>
+    <span class="border-l-2 border-gray-600 py-2 pl-2">Import</span>
+</label>

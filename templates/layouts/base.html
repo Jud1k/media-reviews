@@ -18,9 +18,18 @@
 
     <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
     <script src="{% static 'js/htmx.min.js' %}" defer></script>
+    <script src="{% static 'js/reset-filters.js' %}"></script>
+    <script src="{% static 'js/messages.js' %}"></script>
+    <script>
+        document.addEventListener('htmx:configRequest', (event) => {
+            const csrfToken = document.cookie.match(/csrftoken=([^\s;]+)/);
+            if (csrfToken) {
+                event.detail.headers['X-CSRFToken'] = csrfToken[1];
+            }
+        });
+    </script>
 </head>
-<body class="min-h-screen flex flex-col bg-black" 
-    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body class="min-h-screen flex flex-col bg-black">
 
     <svg style="display: none;">
         {% include "includes/sprites_svg.svg" %}
@@ -31,6 +40,16 @@
     {% endblock nav %}
 
     <main id="main" class="flex-1">
+        {% if messages %}
+            <div class="container mx-auto px-4 pt-4" id="messages-container">
+                {% for message in messages %}
+                    <div class="message flex items-center p-4 mb-2 rounded-lg cursor-pointer {% if message.level == 25 %}bg-green-800 text-green-200{% else %}bg-red-800 text-red-200{% endif %}"
+                         data-auto-dismiss="5000">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         {% block main %}{% endblock main %}
     </main>
     {% comment %} <img src="{% static 'images/rings.svg'%}"/> {% endcomment %}

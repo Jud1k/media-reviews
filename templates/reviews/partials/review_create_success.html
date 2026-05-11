@@ -1,0 +1,9 @@
+{% if review %}
+<div hx-swap-oob="beforeend:#review-grid">
+    <div class="flex review-enter">
+        {% include "reviews/partials/review_card.html" %}
+    </div>
+</div>
+<div id="review-empty" hx-swap-oob="outerHTML"></div>
+{% endif %}
+

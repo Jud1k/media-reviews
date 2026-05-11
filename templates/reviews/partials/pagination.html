@@ -1,0 +1,46 @@
+{% if total_pages > 1 %}
+<nav class="flex justify-center items-center gap-2 mt-8">
+    {% if current_page > 1 %}
+    <a hx-get="{% if base_url %}{{ base_url }}&page=1{% else %}?page=1{% endif %}"
+       hx-target="#review-list"
+       hx-swap="outerHTML"
+       class="cursor-pointer px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">
+        &laquo;
+    </a>
+    <a hx-get="{% if base_url %}{{ base_url }}&page={{ current_page|add:'-1' }}{% else %}?page={{ current_page|add:'-1' }}{% endif %}"
+       hx-target="#review-list"
+       hx-swap="outerHTML"
+       class="cursor-pointer px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">
+        &lsaquo;
+    </a>
+    {% endif %}
+
+    {% for p in page_range %}
+        {% if p == current_page %}
+        <span class="cursor-pointer px-3 py-2 rounded-lg bg-emerald-600 text-white font-medium">{{ p }}</span>
+        {% else %}
+        <a hx-get="{% if base_url %}{{ base_url }}&page={{ p }}{% else %}?page={{ p }}{% endif %}"
+           hx-target="#review-list"
+           hx-swap="outerHTML"
+           class="cursor-pointer px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">
+            {{ p }}
+        </a>
+        {% endif %}
+    {% endfor %}
+
+    {% if current_page < total_pages %}
+    <a hx-get="{% if base_url %}{{ base_url }}&page={{ current_page|add:'1' }}{% else %}?page={{ current_page|add:'1' }}{% endif %}"
+       hx-target="#review-list"
+       hx-swap="outerHTML"
+       class="cursor-pointer px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">
+        &rsaquo;
+    </a>
+    <a hx-get="{% if base_url %}{{ base_url }}&page={{ total_pages }}{% else %}?page={{ total_pages }}{% endif %}"
+       hx-target="#review-list"
+       hx-swap="outerHTML"
+       class="cursor-pointer px-3 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">
+        &raquo;
+    </a>
+    {% endif %}
+</nav>
+{% endif %}
